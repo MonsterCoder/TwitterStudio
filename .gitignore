@@ -5,9 +5,10 @@
 *.Cache
 bin/
 lib/
+obj/
 TwitterStudio/bin/
+TwitterStudio/obj/
 Reports
 TestResult.xml
 _ReSharper.*
 _*
-*.XML 
