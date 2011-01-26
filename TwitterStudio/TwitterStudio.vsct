@@ -44,8 +44,8 @@
          must be a menu. -->
     <Groups>
 
-      <Group guid="guidTwitterStudioCmdSet" id="MyMenuGroup" priority="0x0600">
-        <Parent guid="guidSHLMainMenu" id="IDM_VS_MENU_TOOLS"/>
+      <Group guid="guidTwitterStudioCmdSet" id="TwitterStudioMenuGroup" priority="0x0600">
+        <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_CODEWIN"/>
       </Group>
       
 
@@ -64,22 +64,22 @@
               <CommandFlag>DynamicVisibility</CommandFlag>
           If you do not want an image next to your command, remove the Icon node or set it to <Icon guid="guidOfficeIcon" id="msotcidNoIcon" /> -->
 
-      <Button guid="guidTwitterStudioCmdSet" id="cmdidMyCommand" priority="0x0100" type="Button">
-        <Parent guid="guidTwitterStudioCmdSet" id="MyMenuGroup" />
+      <Button guid="guidTwitterStudioCmdSet" id="cmdidTweetCommand" priority="0x0100" type="Button">
+        <Parent guid="guidTwitterStudioCmdSet" id="TwitterStudioMenuGroup" />
         <Icon guid="guidImages" id="bmpPic1" />
         <Strings>
-          <CommandName>cmdidMyCommand</CommandName>
-          <ButtonText>My Command name</ButtonText>
+          <CommandName>cmdidTweetCommand</CommandName>
+          <ButtonText>Tweet</ButtonText>
         </Strings>
       </Button>
 
 
-      <Button guid="guidTwitterStudioCmdSet" id="cmdidMyTool" priority="0x0100" type="Button">
+      <Button guid="guidTwitterStudioCmdSet" id="cmdidTwitterTool" priority="0x0100" type="Button">
         <Parent guid="guidSHLMainMenu" id="IDG_VS_WNDO_OTRWNDWS1"/>
         <Icon guid="guidImages" id="bmpPic2" />
         <Strings>
-          <CommandName>cmdidMyTool</CommandName>
-          <ButtonText>My Tool Window</ButtonText>
+          <CommandName>cmdidTwitterTool</CommandName>
+          <ButtonText>Tweeter Window</ButtonText>
         </Strings>
       </Button>
 
@@ -110,9 +110,9 @@
     <!-- This is the guid used to group the menu commands together -->
     <GuidSymbol name="guidTwitterStudioCmdSet" value="{59a1ad52-0f4d-4b78-bced-67bd69636e86}">
 
-      <IDSymbol name="MyMenuGroup" value="0x1020" />
-      <IDSymbol name="cmdidMyCommand" value="0x0100" />
-      <IDSymbol name="cmdidMyTool" value="0x0101" />
+      <IDSymbol name="TwitterStudioMenuGroup" value="0x1020" />
+      <IDSymbol name="cmdidTweetCommand" value="0x0100" />
+      <IDSymbol name="cmdidTwitterTool" value="0x0101" />
     </GuidSymbol>
     
     
