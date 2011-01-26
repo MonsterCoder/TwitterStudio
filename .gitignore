@@ -1,0 +1,13 @@
+*.pdb
+*.suo
+*.user
+*.cache
+*.Cache
+bin/
+lib/
+TwitterStudio/bin/
+Reports
+TestResult.xml
+_ReSharper.*
+_*
+*.XML 
