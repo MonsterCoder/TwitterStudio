@@ -37,7 +37,6 @@
     group; your package should define its own command set in order to avoid collisions  
     with command ids defined by other packages. -->
 
-    
     <!-- In this section you can define new menu groups. A menu group is a container for 
          other menus or buttons (commands); from a visual point of view you can see the 
          group as the part of a menu contained between two lines. The parent of a group 
@@ -46,10 +45,11 @@
 
       <Group guid="guidTwitterStudioCmdSet" id="TwitterStudioMenuGroup" priority="0x0600">
         <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_CODEWIN"/>
-      </Group>
+      </Group>           
       
-
-
+      <Group guid="guidTwitterStudioCmdSet" id="TwitterStudioMainMenuGroup" priority="0x0600">
+        <Parent guid="guidSHLMainMenu" id="IDM_VS_MENU_TOOLS"/>
+      </Group>      
     </Groups>
     
     <!--Buttons section. -->
@@ -68,11 +68,17 @@
         <Parent guid="guidTwitterStudioCmdSet" id="TwitterStudioMenuGroup" />
         <Icon guid="guidImages" id="bmpPic1" />
         <Strings>
-          <CommandName>cmdidTweetCommand</CommandName>
           <ButtonText>Tweet</ButtonText>
         </Strings>
-      </Button>
-
+      </Button>      
+      
+      <Button guid="guidTwitterStudioCmdSet" id="cmdidTweetCommand" priority="0x0100" type="Button">
+        <Parent guid="guidTwitterStudioCmdSet" id="TwitterStudioMainMenuGroup" />
+        <Icon guid="guidImages" id="bmpPic1" />
+        <Strings>
+          <ButtonText>Tweet</ButtonText>
+        </Strings>
+      </Button>     
 
       <Button guid="guidTwitterStudioCmdSet" id="cmdidTwitterTool" priority="0x0100" type="Button">
         <Parent guid="guidSHLMainMenu" id="IDG_VS_WNDO_OTRWNDWS1"/>
@@ -110,7 +116,9 @@
     <!-- This is the guid used to group the menu commands together -->
     <GuidSymbol name="guidTwitterStudioCmdSet" value="{59a1ad52-0f4d-4b78-bced-67bd69636e86}">
 
+      <IDSymbol name="TopLevelMenu" value="0x2010" />
       <IDSymbol name="TwitterStudioMenuGroup" value="0x1020" />
+      <IDSymbol name="TwitterStudioMainMenuGroup" value="0x1021" />
       <IDSymbol name="cmdidTweetCommand" value="0x0100" />
       <IDSymbol name="cmdidTwitterTool" value="0x0101" />
     </GuidSymbol>
@@ -127,8 +135,7 @@
   </Symbols>
   
   <KeyBindings>
-    <KeyBinding guid="guidTwitterStudioCmdSet" id="cmdidTweetCommand" editor="guidVSStd97"
-      key1="VK_F1" mod1="Control Alt"/>
+    <KeyBinding guid="guidTwitterStudioCmdSet" id="cmdidTweetCommand" editor="guidVSStd97" key1="VK_F6" mod1="Control Alt"/>
   </KeyBindings>
 
 
