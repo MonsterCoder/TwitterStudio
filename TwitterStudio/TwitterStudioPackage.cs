@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Runtime.InteropServices;
 using System.ComponentModel.Design;
 using System.Windows;
+using EnvDTE;
 using Microsoft.Win32;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.OLE.Interop;
@@ -13,6 +14,7 @@ using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Editor;
 using System.Net;
 using System.Collections.Generic;
+using Microsoft.VisualStudio.Text.Editor;
 
 namespace Company.TwitterStudio
 {
@@ -109,27 +111,23 @@ namespace Company.TwitterStudio
         {
             var txtMgr = (IVsTextManager)GetService(typeof(SVsTextManager));
             IVsTextView view;
+            IVsTextLines buffer;
             txtMgr.GetActiveView(1, null, out view);
+            var wpfview = view.GetBuffer(out buffer);
+
             string selectedText;
             view.GetSelectedText(out selectedText);
-            MessageBox.Show(selectedText);
-            // Show a Message Box to prove we were here
-            //IVsUIShell uiShell = (IVsUIShell)GetService(typeof(SVsUIShell));
+            
+            var vm = new TwitterPanelViewModel() {Message = "Message here", Code = selectedText};
+            var win = new TwitterPanel() {DataContext = vm};
+            win.ShowDialog();
 
-            //Guid clsid = Guid.Empty;
-            //int result;
-            //Microsoft.VisualStudio.ErrorHandler.ThrowOnFailure(uiShell.ShowMessageBox(
-            //           0,
-            //           ref clsid,
-            //           "TwitterStudio",
-            //           string.Format(CultureInfo.CurrentCulture, "Inside {0}.MenuItemCallback()", this.ToString()),
-            //           string.Empty,
-            //           0,
-            //           OLEMSGBUTTON.OLEMSGBUTTON_OK,
-            //           OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST,
-            //           OLEMSGICON.OLEMSGICON_INFO,
-            //           0,        // false
-            //           out result));
+            object point;
+            buffer.CreateEditPoint(0, 0, out point);
+            ((EditPoint)point).Insert("/// twitter \n");
+           /// wpfview.TextBuffer.Insert(wpfview.Selection.Start.Position, "/// twitter");
+            
+ 
         }
 
     }
