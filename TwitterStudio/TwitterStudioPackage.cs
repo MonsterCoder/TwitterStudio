@@ -1,4 +1,6 @@
 ﻿using System;
+using System.ComponentModel.Composition;
+using System.ComponentModel.Composition.Hosting;
 using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.InteropServices;
@@ -15,6 +17,7 @@ using Microsoft.VisualStudio.Editor;
 using System.Net;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.Text.Editor;
+using TwitterStudio.Domain;
 
 namespace Company.TwitterStudio
 {
@@ -41,6 +44,9 @@ namespace Company.TwitterStudio
     [Guid(GuidList.guidTwitterStudioPkgString)]
     public sealed class TwitterStudioPackage : Package
     {
+        [Import(typeof(ICmdHandler))]
+        private ICmdHandler _twitterCmdhandler;
+
         /// <summary>
         /// Default constructor of the package.
         /// Inside this method you can place any initialization code that does not require 
@@ -50,7 +56,22 @@ namespace Company.TwitterStudio
         /// </summary>
         public TwitterStudioPackage()
         {
-            Trace.WriteLine(string.Format(CultureInfo.CurrentCulture, "Entering constructor for: {0}", this.ToString()));
+            InitializeImports();
+        }
+
+        private void InitializeImports()
+        {
+            var _container = new CompositionContainer(new DirectoryCatalog(@"c:\Dev\TwitterStudio\libs"));
+
+            //Fill the imports of this object
+            try
+            {
+                _container.ComposeParts(this);
+            }
+            catch (CompositionException compositionException)
+            {
+                Debug.WriteLine(compositionException.ToString());
+            }
         }
 
         /// <summary>
@@ -113,21 +134,21 @@ namespace Company.TwitterStudio
             IVsTextView view;
             IVsTextLines buffer;
             txtMgr.GetActiveView(1, null, out view);
-            var wpfview = view.GetBuffer(out buffer);
+            view.GetBuffer(out buffer);
 
             string selectedText;
             view.GetSelectedText(out selectedText);
             
-            var vm = new TwitterPanelViewModel() {Message = "Message here", Code = selectedText};
-            var win = new TwitterPanel() {DataContext = vm};
-            win.ShowDialog();
+            //var vm = new TwitterPanelViewModel() {Message = "Message here", Code = selectedText};
+            //var win = new TwitterPanel() {DataContext = vm};
+            //win.ShowDialog();
 
-            object point;
-            buffer.CreateEditPoint(0, 0, out point);
-            ((EditPoint)point).Insert("/// twitter \n");
-           /// wpfview.TextBuffer.Insert(wpfview.Selection.Start.Position, "/// twitter");
-            
- 
+            if (_twitterCmdhandler.Send(selectedText))
+            {
+                object point;
+                buffer.CreateEditPoint(0, 0, out point);
+                ((EditPoint)point).Insert("/// twitter \n");
+            }
         }
 
     }

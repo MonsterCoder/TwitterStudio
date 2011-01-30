@@ -21,6 +21,5 @@
   </References>
   <Content>
     <VsPackage>|%CurrentProject%;PkgdefProjectOutputGroup|</VsPackage>
-    <MefComponent>|TwitterEditorView|</MefComponent>
   </Content>
 </Vsix>

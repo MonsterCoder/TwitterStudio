@@ -8,6 +8,5 @@ namespace Company.TwitterStudio
     {
         public const uint cmdidMyCommand =        0x100;
         public const uint cmdidMyTool =    0x101;
-
     };
 }
