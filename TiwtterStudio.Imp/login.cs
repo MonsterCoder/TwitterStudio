@@ -25,7 +25,8 @@ namespace TiwtterStudio.Imp
         {
             if (webBrowser1.Document.Body.InnerHtml.Contains("oauth_pin"))
             {
-                _returnPin(webBrowser1.Document.GetElementById("oauth_pin").InnerText);
+                _returnPin(webBrowser1.Document.GetElementById("oauth_pin").InnerText.Trim());
+                this.Close();
             }
         }
     }

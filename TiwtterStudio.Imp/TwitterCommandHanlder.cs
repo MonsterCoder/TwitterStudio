@@ -64,12 +64,15 @@ namespace TiwtterStudio.Imp
         /// </summary>
         private static void InitializeAccessKey()
         {
-            accessKey = OAuthUtility.GetRequestToken(ConsumerKey, ConsumerSecret, "oob").Token;
+            var oAuth_token = OAuthUtility.GetRequestToken(ConsumerKey, ConsumerSecret, "oob").Token;
 
             // redirect the user to twitter and get the access pin
-            var pin = GetPin(accessKey);
+            var pin = GetPin(oAuth_token);
 
-            accessSecret = OAuthUtility.GetAccessToken(ConsumerKey, ConsumerSecret, accessKey, pin).TokenSecret;
+            var oAuthTokenResponse = OAuthUtility.GetAccessToken(ConsumerKey, ConsumerSecret, oAuth_token, pin);
+
+            accessKey = oAuthTokenResponse.Token;
+            accessSecret = oAuthTokenResponse.TokenSecret;
         }
 
         /// <summary>
@@ -84,9 +87,17 @@ namespace TiwtterStudio.Imp
         /// </exception>
         private static string GetPin(string tempAccessKey)
         {
-            var login = new login(tempAccessKey);
+            var pin = string.Empty;
+
+            var login = new login(tempAccessKey, rtPin => pin = rtPin);
             login.ShowDialog();
-            return "";
+
+            if (string.IsNullOrEmpty(pin))
+            {
+                throw new ApplicationException("Failed in getting Twitter access pin!");
+            }
+
+            return pin;
         }
     }
 }
