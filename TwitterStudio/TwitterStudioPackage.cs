@@ -157,7 +157,7 @@ namespace Company.TwitterStudio
             string selectedText;
             view.GetSelectedText(out selectedText);
 
-            if (twitterCmdhandler.Send(selectedText))
+            if (twitterCmdhandler.Update(selectedText))
             {
                 object point;
                 buffer.CreateEditPoint(0, 0, out point);
