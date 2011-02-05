@@ -163,11 +163,14 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\Package.ico" />
-    <Content Include="TiwtterStudio.Imp.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TiwtterStudio.Imp\TiwtterStudio.Imp.csproj">
+      <Project>{0A5D8A18-DF3C-437A-B3FE-EAAAEC834D7A}</Project>
+      <Name>TiwtterStudio.Imp</Name>
+      <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3b</IncludeOutputGroupsInVSIX>
+      <IncludeOutputGroupsInVSIXLocalOnly>DebugSymbolsProjectOutputGroup%3b</IncludeOutputGroupsInVSIXLocalOnly>
+    </ProjectReference>
     <ProjectReference Include="..\TwitterStudio.Domain\TwitterStudio.Domain.csproj">
       <Project>{163E9CAA-3F02-459C-8760-96C627390C54}</Project>
       <Name>TwitterStudio.Domain</Name>

@@ -5,18 +5,10 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.InteropServices;
 using System.ComponentModel.Design;
-using System.Windows;
 using EnvDTE;
-using Microsoft.Win32;
 using Microsoft.VisualStudio.Shell.Interop;
-using Microsoft.VisualStudio.OLE.Interop;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.TextManager.Interop;
-using Microsoft.VisualStudio.Text.Editor;
-using Microsoft.VisualStudio.Editor;
-using System.Net;
-using System.Collections.Generic;
-using Microsoft.VisualStudio.Text.Editor;
 using TwitterStudio.Domain;
 
 namespace Company.TwitterStudio
@@ -138,10 +130,6 @@ namespace Company.TwitterStudio
 
             string selectedText;
             view.GetSelectedText(out selectedText);
-            
-            //var vm = new TwitterPanelViewModel() {Message = "Message here", Code = selectedText};
-            //var win = new TwitterPanel() {DataContext = vm};
-            //win.ShowDialog();
 
             if (_twitterCmdhandler.Send(selectedText))
             {

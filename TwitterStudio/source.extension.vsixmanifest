@@ -21,5 +21,6 @@
   </References>
   <Content>
     <VsPackage>|%CurrentProject%;PkgdefProjectOutputGroup|</VsPackage>
+    <MefComponent>|TiwtterStudio.Imp|</MefComponent>
   </Content>
 </Vsix>
