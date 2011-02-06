@@ -19,6 +19,7 @@ using System.ComponentModel.Composition.Hosting;
 using System.ComponentModel.Design;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.Windows.Forms;
 using EnvDTE;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
@@ -54,7 +55,13 @@ namespace Company.TwitterStudio
         /// Twitter command handler
         /// </summary>
         [Import(typeof(ICmdHandler))]
-        private ICmdHandler twitterCmdhandler;
+        private ICmdHandler twitterCmdhandler;       
+        
+        /// <summary>
+        /// Twitter command handler
+        /// </summary>
+        [Import(typeof(ICodeStorage))]
+        private ICodeStorage codeStorage;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TwitterStudioPackage"/> class. 
@@ -123,6 +130,7 @@ namespace Company.TwitterStudio
 
             // Add our command handlers for menu (commands must exist in the .vsct file)
             var mcs = GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
+
             if (null != mcs)
             {
                 // Create the command for the menu item.
@@ -157,11 +165,17 @@ namespace Company.TwitterStudio
             string selectedText;
             view.GetSelectedText(out selectedText);
 
-            if (twitterCmdhandler.Update(selectedText))
+            var link = codeStorage.Upload(selectedText);
+
+            if (twitterCmdhandler.Update(link))
             {
                 object point;
                 buffer.CreateEditPoint(0, 0, out point);
                 ((EditPoint)point).Insert("/// twitter \n");
+            }
+            else
+            {
+                MessageBox.Show("failed!");
             }
         }
     }

@@ -15,7 +15,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwitterStudio_UnitTests", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwitterStudio.Domain", "TwitterStudio.Domain\TwitterStudio.Domain.csproj", "{163E9CAA-3F02-459C-8760-96C627390C54}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TiwtterStudio.Imp", "TiwtterStudio.Imp\TiwtterStudio.Imp.csproj", "{0A5D8A18-DF3C-437A-B3FE-EAAAEC834D7A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TiwtterCommandHandler", "TiwtterStudio.Imp\TiwtterCommandHandler.csproj", "{0A5D8A18-DF3C-437A-B3FE-EAAAEC834D7A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PasteBinStorage", "PasteBinStorage\PasteBinStorage.csproj", "{6AC60F15-09A6-4BD6-9BEA-B26358D01697}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,6 +45,10 @@ Global
 		{0A5D8A18-DF3C-437A-B3FE-EAAAEC834D7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0A5D8A18-DF3C-437A-B3FE-EAAAEC834D7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0A5D8A18-DF3C-437A-B3FE-EAAAEC834D7A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6AC60F15-09A6-4BD6-9BEA-B26358D01697}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6AC60F15-09A6-4BD6-9BEA-B26358D01697}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6AC60F15-09A6-4BD6-9BEA-B26358D01697}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6AC60F15-09A6-4BD6-9BEA-B26358D01697}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -165,9 +165,15 @@
     <Content Include="Resources\Package.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TiwtterStudio.Imp\TiwtterStudio.Imp.csproj">
+    <ProjectReference Include="..\PasteBinStorage\PasteBinStorage.csproj">
+      <Project>{6AC60F15-09A6-4BD6-9BEA-B26358D01697}</Project>
+      <Name>PasteBinStorage</Name>
+      <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3b</IncludeOutputGroupsInVSIX>
+      <IncludeOutputGroupsInVSIXLocalOnly>DebugSymbolsProjectOutputGroup%3b</IncludeOutputGroupsInVSIXLocalOnly>
+    </ProjectReference>
+    <ProjectReference Include="..\TiwtterStudio.Imp\TiwtterCommandHandler.csproj">
       <Project>{0A5D8A18-DF3C-437A-B3FE-EAAAEC834D7A}</Project>
-      <Name>TiwtterStudio.Imp</Name>
+      <Name>TiwtterCommandHandler</Name>
       <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3b</IncludeOutputGroupsInVSIX>
       <IncludeOutputGroupsInVSIXLocalOnly>DebugSymbolsProjectOutputGroup%3b</IncludeOutputGroupsInVSIXLocalOnly>
     </ProjectReference>

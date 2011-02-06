@@ -21,6 +21,7 @@
   </References>
   <Content>
     <VsPackage>|%CurrentProject%;PkgdefProjectOutputGroup|</VsPackage>
-    <MefComponent>|TiwtterStudio.Imp|</MefComponent>
+    <MefComponent>|TiwtterCommandHandler|</MefComponent>
+    <MefComponent>|PasteBinStorage|</MefComponent>
   </Content>
 </Vsix>
