@@ -1,4 +1,13 @@
-﻿using System;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="PasteBinStorage.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   Passte bin code storage
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+using System;
 using System.ComponentModel.Composition;
 using System.IO;
 using System.Net;
@@ -16,7 +25,7 @@ namespace PasteBinStorage
         /// <summary>
         /// Url to paste bin api
         /// </summary>
-        private const string Url = @"http://davux.pastebin.com/pastebin.php";       
+        private const string Url = @"http://pastebin.com/api_public.php";       
 
         /// <summary>
         /// Send message to storage
@@ -31,11 +40,12 @@ namespace PasteBinStorage
         {
             try
             {
-                var content = "paste_code=" + HttpUtility.HtmlEncode(msg);
+                var content = "paste_code=" + HttpUtility.UrlEncode(msg);
                 var buffer = System.Text.Encoding.ASCII.GetBytes(content);
 
                 var request = (HttpWebRequest)WebRequest.Create(Url); 
                 request.Method = "POST";
+                request.ContentType = "application/x-www-form-urlencoded";
                 request.ContentLength = buffer.Length;
                 request.UserAgent = "TwitterStudio2011";
 
@@ -57,68 +67,5 @@ namespace PasteBinStorage
                 return ex.Message;
             }
         }
-
-
-        public static string postRequest(string url, string postData)
-        {
-            var webRequest = System.Net.WebRequest.Create(url) as HttpWebRequest;
-
-            if (webRequest != null)
-            {
-                webRequest.Method = "Post";
-                webRequest.UserAgent = "TwitterStudio2011";
-                webRequest.ContentType = "application/x-www-form-urlencoded";
-
-                using (var requestWriter = new StreamWriter(webRequest.GetRequestStream()))
-                {
-                    requestWriter.Write(postData);
-                }
-  
-                return WebResponseGet(webRequest);
-            }
-
-            return string.Empty;
-        }
-
-        /// <summary>
-        /// Process the web response.
-        /// </summary>
-        /// <param name="webRequest">The request object.</param>
-        /// <returns>The response data.</returns>
-        private static string WebResponseGet(WebRequest webRequest)
-        {
-            StreamReader responseReader = null;
-            string responseData = string.Empty;
-            var donext = false;
-            try
-            {
-                var str = (HttpWebResponse)webRequest.GetResponse();
-
-                if (str != null)
-                {
-                    var stream = str.GetResponseStream();
-                    if (stream != null) responseReader = new StreamReader(stream);
-                }
-
-                if (responseReader != null) responseData = responseReader.ReadToEnd();
-                else
-                    donext = true;
-            }
-            catch (WebException)
-            {
-                responseData = "error";
-            }
-            finally
-            {
-                if (donext)
-                {
-                    webRequest.GetResponse().GetResponseStream().Close();
-                    responseReader.Close();
-                }
-            }
-            return responseData;
-        }
-
-
     }
 }
