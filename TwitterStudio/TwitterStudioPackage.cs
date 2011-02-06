@@ -164,18 +164,23 @@ namespace Company.TwitterStudio
 
             string selectedText;
             view.GetSelectedText(out selectedText);
-
+            
             var link = codeStorage.Upload(selectedText);
 
             if (twitterCmdhandler.Update(link))
             {
                 object point;
+                int l1;
+                int c1;
+                int l2;
+                int c2;
+                view.GetSelection(out l1, out c1, out l2, out c2);
                 buffer.CreateEditPoint(0, 0, out point);
-                ((EditPoint)point).Insert("/// twitter \n");
+                ((EditPoint)point).Insert(string.Format("/// twitter: line {0} column {1} to  line {2}, column {3}", l1, c1, l2, c2));
             }
             else
             {
-                MessageBox.Show("failed!");
+                MessageBox.Show("Tweet failed!");
             }
         }
     }
