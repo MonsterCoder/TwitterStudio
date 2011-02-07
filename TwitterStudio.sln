@@ -27,6 +27,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Extensions", "Extensions", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwitterClassifier", "TwitterClassifier\TwitterClassifier.csproj", "{8277CE81-0EBA-473E-AA35-3979D9B8A3CD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwitterViewport", "TwitterViewport\TwitterViewport.csproj", "{E5C786E3-00F5-4EA6-B957-1B819D0F0432}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,6 +63,10 @@ Global
 		{8277CE81-0EBA-473E-AA35-3979D9B8A3CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8277CE81-0EBA-473E-AA35-3979D9B8A3CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8277CE81-0EBA-473E-AA35-3979D9B8A3CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E5C786E3-00F5-4EA6-B957-1B819D0F0432}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E5C786E3-00F5-4EA6-B957-1B819D0F0432}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E5C786E3-00F5-4EA6-B957-1B819D0F0432}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E5C786E3-00F5-4EA6-B957-1B819D0F0432}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -73,5 +79,6 @@ Global
 		{6AC60F15-09A6-4BD6-9BEA-B26358D01697} = {34DC654E-A685-4A01-8656-8D2BD4CF51B1}
 		{0A5D8A18-DF3C-437A-B3FE-EAAAEC834D7A} = {34DC654E-A685-4A01-8656-8D2BD4CF51B1}
 		{8277CE81-0EBA-473E-AA35-3979D9B8A3CD} = {34DC654E-A685-4A01-8656-8D2BD4CF51B1}
+		{E5C786E3-00F5-4EA6-B957-1B819D0F0432} = {34DC654E-A685-4A01-8656-8D2BD4CF51B1}
 	EndGlobalSection
 EndGlobal
