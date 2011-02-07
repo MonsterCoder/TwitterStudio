@@ -21,5 +21,6 @@
   </References>
   <Content>
     <VsPackage>|%CurrentProject%;PkgdefProjectOutputGroup|</VsPackage>
+    <MefComponent>|TwitterClassifier|</MefComponent>
   </Content>
 </Vsix>

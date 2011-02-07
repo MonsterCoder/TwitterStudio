@@ -175,8 +175,9 @@ namespace Company.TwitterStudio
                 int l2;
                 int c2;
                 view.GetSelection(out l1, out c1, out l2, out c2);
-                buffer.CreateEditPoint(0, 0, out point);
-                ((EditPoint)point).Insert(string.Format("/// twitter: line {0} column {1} to  line {2}, column {3}", l1, c1, l2, c2));
+                buffer.CreateEditPoint(Math.Max(l1, l2), 0, out point);
+
+                ((EditPoint)point).Insert(string.Format("/// twitted:{0}", link));
             }
             else
             {

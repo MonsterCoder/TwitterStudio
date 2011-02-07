@@ -165,6 +165,12 @@
     <Content Include="Resources\Package.ico" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TwitterClassifier\TwitterClassifier.csproj">
+      <Project>{8277CE81-0EBA-473E-AA35-3979D9B8A3CD}</Project>
+      <Name>TwitterClassifier</Name>
+      <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3b</IncludeOutputGroupsInVSIX>
+      <IncludeOutputGroupsInVSIXLocalOnly>DebugSymbolsProjectOutputGroup%3b</IncludeOutputGroupsInVSIXLocalOnly>
+    </ProjectReference>
     <ProjectReference Include="..\TwitterStudio.Domain\TwitterStudio.Domain.csproj">
       <Project>{163E9CAA-3F02-459C-8760-96C627390C54}</Project>
       <Name>TwitterStudio.Domain</Name>
