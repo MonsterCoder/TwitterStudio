@@ -60,10 +60,6 @@
     <Compile Include="MenuItemTests\UIShellServiceMock.cs" />
     <!---->
     <!---->
-    <Compile Include="MyToolWindowTest\MyToolWindow.cs" />
-    <Compile Include="MyToolWindowTest\ShowToolWindow.cs" />
-    <Compile Include="MyToolWindowTest\WindowFrameMock.cs" />
-    <Compile Include="MyToolWindowTest\UIShellServiceMock.cs" />
     <!---->
     <!---->
   </ItemGroup>

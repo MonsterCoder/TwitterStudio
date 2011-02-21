@@ -68,7 +68,7 @@
         <Parent guid="guidTwitterStudioCmdSet" id="TwitterStudioMenuGroup" />
         <Icon guid="guidImages" id="bmpPic1" />
         <Strings>
-          <ButtonText>Tweet</ButtonText>
+          <ButtonText>Tweet it!</ButtonText>
         </Strings>
       </Button>      
       
@@ -76,7 +76,7 @@
         <Parent guid="guidTwitterStudioCmdSet" id="TwitterStudioMainMenuGroup" />
         <Icon guid="guidImages" id="bmpPic1" />
         <Strings>
-          <ButtonText>Tweet</ButtonText>
+          <ButtonText>Tweet it!</ButtonText>
         </Strings>
       </Button>     
 

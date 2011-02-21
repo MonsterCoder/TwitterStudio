@@ -14,17 +14,18 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using System;
+using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using System.ComponentModel.Design;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using Company.TwitterStudio.Services;
 using EnvDTE;
+using Microsoft.VisualStudio.ComponentModelHost;
 using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.TextManager.Interop;
-using TwitterStudio.Domain;
 
 namespace Company.TwitterStudio
 {
@@ -54,44 +55,23 @@ namespace Company.TwitterStudio
         /// <summary>
         /// Twitter command handler
         /// </summary>
-        [Import(typeof(ICmdHandler))]
-        private ICmdHandler twitterCmdhandler;       
+        [Import(typeof(ITwitterSerive))]
+        private ITwitterSerive twitterService;       
         
         /// <summary>
         /// Twitter command handler
         /// </summary>
-        [Import(typeof(ICodeStorage))]
-        private ICodeStorage codeStorage;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="TwitterStudioPackage"/> class. 
-        /// Default constructor of the package.
-        /// Inside this method you can place any initialization code that does not require 
-        /// any Visual Studio service because at this point the package object is created but 
-        /// not sited yet inside Visual Studio environment. The place to do all the other 
-        /// initialization is the Initialize method.
-        /// </summary>
-        public TwitterStudioPackage()
-        {
-            InitializeImports();
-        }
+        [Import(typeof(IPasteService))]
+        private IPasteService pasteService;
 
         /// <summary>
         /// Imports MEF components
         /// </summary>
         private void InitializeImports()
         {
-            var container = new CompositionContainer(new DirectoryCatalog(@"c:\Dev\TwitterStudio\libs"));
-
-            // Fill the imports of this object
-            try
-            {
-                container.ComposeParts(this);
-            }
-            catch (CompositionException compositionException)
-            {
-                Debug.WriteLine(compositionException.ToString());
-            }
+            var vscontainer = GetService(typeof(SComponentModel)) as IComponentModel;
+            
+            vscontainer.DefaultCompositionService.SatisfyImportsOnce(this);
         }
 
         /// <summary>
@@ -107,17 +87,17 @@ namespace Company.TwitterStudio
         /// </param>
         private void ShowToolWindow(object sender, EventArgs e)
         {
-            // Get the instance number 0 of this tool window. This window is single instance so this instance
-            // is actually the only one.
-            // The last flag is set to true so that if the tool window does not exists it will be created.
-            var window = FindToolWindow(typeof(MyToolWindow), 0, true);
-            if ((null == window) || (null == window.Frame))
-            {
-                throw new NotSupportedException(Resources.CanNotCreateWindow);
-            }
+            //// Get the instance number 0 of this tool window. This window is single instance so this instance
+            //// is actually the only one.
+            //// The last flag is set to true so that if the tool window does not exists it will be created.
+            //var window = FindToolWindow(typeof(MyToolWindow), 0, true);
+            //if ((null == window) || (null == window.Frame))
+            //{
+            //    throw new NotSupportedException(Resources.CanNotCreateWindow);
+            //}
 
-            var windowFrame = (IVsWindowFrame)window.Frame;
-            Microsoft.VisualStudio.ErrorHandler.ThrowOnFailure(windowFrame.Show());
+            //var windowFrame = (IVsWindowFrame)window.Frame;
+            //Microsoft.VisualStudio.ErrorHandler.ThrowOnFailure(windowFrame.Show());
         }
 
         /// <summary>
@@ -156,6 +136,11 @@ namespace Company.TwitterStudio
         /// </param>
         private void MenuItemCallback(object sender, EventArgs e)
         {
+            if (pasteService == null || twitterService == null)
+            {
+                InitializeImports();
+            }
+
             var txtMgr = (IVsTextManager)GetService(typeof(SVsTextManager));
             IVsTextView view;
             IVsTextLines buffer;
@@ -165,9 +150,9 @@ namespace Company.TwitterStudio
             string selectedText;
             view.GetSelectedText(out selectedText);
             
-            var link = codeStorage.Upload(selectedText);
+            var link = pasteService.Upload(selectedText);
 
-            if (twitterCmdhandler.Update(link))
+            if (twitterService.Update(link))
             {
                 object point;
                 int l1;
