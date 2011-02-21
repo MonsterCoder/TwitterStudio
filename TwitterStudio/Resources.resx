@@ -132,4 +132,7 @@
   <data name="ToolWindowTitle" xml:space="preserve">
     <value>My Tool Window</value>
   </data>
+	<data name="TwitterStudioPackage_MenuItemCallback_Tweet_failed_">
+		<value xml:space="preserve">Tweet failed!</value>
+	</data>
 </root>

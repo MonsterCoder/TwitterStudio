@@ -14,11 +14,8 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using System;
-using System.ComponentModel;
 using System.ComponentModel.Composition;
-using System.ComponentModel.Composition.Hosting;
 using System.ComponentModel.Design;
-using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Company.TwitterStudio.Services;
@@ -87,17 +84,6 @@ namespace Company.TwitterStudio
         /// </param>
         private void ShowToolWindow(object sender, EventArgs e)
         {
-            //// Get the instance number 0 of this tool window. This window is single instance so this instance
-            //// is actually the only one.
-            //// The last flag is set to true so that if the tool window does not exists it will be created.
-            //var window = FindToolWindow(typeof(MyToolWindow), 0, true);
-            //if ((null == window) || (null == window.Frame))
-            //{
-            //    throw new NotSupportedException(Resources.CanNotCreateWindow);
-            //}
-
-            //var windowFrame = (IVsWindowFrame)window.Frame;
-            //Microsoft.VisualStudio.ErrorHandler.ThrowOnFailure(windowFrame.Show());
         }
 
         /// <summary>
@@ -115,8 +101,11 @@ namespace Company.TwitterStudio
             {
                 // Create the command for the menu item.
                 var menuCommandID = new CommandID(GuidList.guidTwitterStudioCmdSet, (int) PkgCmdIDList.cmdidMyCommand);
+               
                 var menuItem = new MenuCommand(MenuItemCallback, menuCommandID);
+               
                 mcs.AddCommand(menuItem);
+
                 var toolwndCommandID = new CommandID(GuidList.guidTwitterStudioCmdSet, (int)PkgCmdIDList.cmdidMyTool);
                 var menuToolWin = new MenuCommand(ShowToolWindow, toolwndCommandID);
                 mcs.AddCommand(menuToolWin);
@@ -145,6 +134,11 @@ namespace Company.TwitterStudio
             IVsTextView view;
             IVsTextLines buffer;
             txtMgr.GetActiveView(1, null, out view);
+            if (view == null)
+            {
+                return;
+            }
+
             view.GetBuffer(out buffer);
 
             string selectedText;
@@ -166,7 +160,7 @@ namespace Company.TwitterStudio
             }
             else
             {
-                MessageBox.Show("Tweet failed!");
+                MessageBox.Show(Resources.TwitterStudioPackage_MenuItemCallback_Tweet_failed_);
             }
         }
     }

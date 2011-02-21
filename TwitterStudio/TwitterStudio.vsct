@@ -22,10 +22,13 @@
 
   <!--Definition of some VSCT specific constants. In this sample we use it for the IDs inside the guidOfficeIcon group. -->
   <Extern href="msobtnid.h"/>
-
-
-
-
+  <!--<VisibilityConstraints>
+    <VisibilityItem guid="guidTwitterStudioCmdSet" id="TwitterStudioMainMenuGroup"
+      context="UICONTEXT_SolutionHasMultipleProjects"/>   
+    
+    <VisibilityItem guid="guidTwitterStudioCmdSet" id="cmdidTweetCommand"
+      context="UICONTEXT_SolutionHasMultipleProjects"/>
+  </VisibilityConstraints>-->
   <!--The Commands section is where we the commands, menus and menu groups are defined.
       This section uses a Guid to identify the package that provides the command defined inside it. -->
   <Commands package="guidTwitterStudioPkg">
@@ -68,6 +71,7 @@
         <Parent guid="guidTwitterStudioCmdSet" id="TwitterStudioMenuGroup" />
         <Icon guid="guidImages" id="bmpPic1" />
         <Strings>
+
           <ButtonText>Tweet it!</ButtonText>
         </Strings>
       </Button>      
@@ -75,6 +79,7 @@
       <Button guid="guidTwitterStudioCmdSet" id="cmdidTweetCommand" priority="0x0100" type="Button">
         <Parent guid="guidTwitterStudioCmdSet" id="TwitterStudioMainMenuGroup" />
         <Icon guid="guidImages" id="bmpPic1" />
+ 
         <Strings>
           <ButtonText>Tweet it!</ButtonText>
         </Strings>
@@ -102,7 +107,7 @@
       <Bitmap guid="guidImages" href="Resources\Images_32bit.bmp" usedList="bmpPic1, bmpPic2, bmpPicSearch, bmpPicX, bmpPicArrows"/>
 
     </Bitmaps>
- 
+  
   </Commands>
 
 
