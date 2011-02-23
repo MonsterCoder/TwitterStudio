@@ -34,7 +34,7 @@ namespace TwitterPlugin
         /// <summary>
         /// Name of current logged in user
         /// </summary>
-        private static string currentUser;
+        private static string currentUser = "Not login yet";
 
         /// <summary>
         /// Send a message
