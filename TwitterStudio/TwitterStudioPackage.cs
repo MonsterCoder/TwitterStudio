@@ -1,5 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TwitterStudioPackage.cs" company="">
+﻿// <copyright file="TwitterStudioPackage.cs" company="">
 //   
 // </copyright>
 // <summary>
@@ -162,14 +161,14 @@ namespace Company.TwitterStudio
             if (twitterService.Update(link))
             {
                 object point;
-                int l1;
-                int c1;
-                int l2;
-                int c2;
-                view.GetSelection(out l1, out c1, out l2, out c2);
-                buffer.CreateEditPoint(Math.Max(l1, l2), 0, out point);
+                //int l1;
+                //int c1;
+                //int l2;
+                //int c2;
+                //view.GetSelection(out l1, out c1, out l2, out c2);
+                buffer.CreateEditPoint(0, 0, out point);
 
-                ((EditPoint)point).Insert(string.Format("/// twitted:{0}", link));
+                ((EditPoint)point).Insert(string.Format("/// twitted:{0} \n", link));
             }
             else
             {

@@ -111,6 +111,6 @@ namespace TwitterPlugin
             }
 
             return pin;
-/// twitted:http://pastebin.com/DVcBGns2        }
+        }
     }
 }
