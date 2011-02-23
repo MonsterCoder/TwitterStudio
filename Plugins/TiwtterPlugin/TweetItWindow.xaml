@@ -19,7 +19,9 @@
         <TextBox x:Name="body" Text="{Binding MessageBody}" Grid.Row="1" AutoWordSelection="True" />
         <StackPanel  Grid.Row="1" Grid.Column="1" >
             <TextBlock  Text="Please put your message in the left box. Your code will be paste to web and the link will be appended to your message" TextWrapping="Wrap" Margin="5"/>
-            <Button Content="Tweet" Height="30" Width="80" Margin="25" Click="Button_Click" />
+            <CheckBox Content="Log this tweet" IsChecked="{Binding logTweet}" HorizontalAlignment="Center"  Margin="5 20 5 5"  />
+            <Button Content="Tweet" Height="30" Width="80" Margin="25 5 " Click="Button_Click"/>
+
         </StackPanel>
         
     </Grid>

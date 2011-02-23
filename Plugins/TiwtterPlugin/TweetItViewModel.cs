@@ -23,6 +23,11 @@ namespace TwitterPlugin
         /// <summary>
         /// Gets or sets if show switch account option
         /// </summary>
-        public bool ShowSwith { get; set; }
+        public bool ShowSwith { get; set; }        
+        
+        /// <summary>
+        /// Gets or sets if show switch account option
+        /// </summary>
+        public bool logTweet { get; set; }
     }
 }

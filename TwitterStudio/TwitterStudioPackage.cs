@@ -158,19 +158,13 @@ namespace Company.TwitterStudio
             
             var link = pasteService.Upload(selectedText);
 
-            if (twitterService.Update(link))
-            {
-                object point;
-                //int l1;
-                //int c1;
-                //int l2;
-                //int c2;
-                //view.GetSelection(out l1, out c1, out l2, out c2);
-                buffer.CreateEditPoint(0, 0, out point);
+            object point;
+     
+            buffer.CreateEditPoint(0, 0, out point);
 
-                ((EditPoint)point).Insert(string.Format("/// twitted:{0} \n", link));
-            }
-            else
+            Action<string> logAction = msg => ((EditPoint)point).Insert(string.Format("/// twitted:{0} \n", link)); 
+
+            if (!twitterService.Update(link, logAction))
             {
                 MessageBox.Show(Resources.TwitterStudioPackage_MenuItemCallback_Tweet_failed_);
             }
