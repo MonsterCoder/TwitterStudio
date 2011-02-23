@@ -22,6 +22,7 @@ using Company.TwitterStudio.Services;
 using EnvDTE;
 using Microsoft.VisualStudio.ComponentModelHost;
 using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.TextManager.Interop;
 
 namespace Company.TwitterStudio
@@ -84,6 +85,18 @@ namespace Company.TwitterStudio
         /// </param>
         private void ShowToolWindow(object sender, EventArgs e)
         {
+            // Get the instance number 0 of this tool window. This window is single instance so this instance
+            // is actually the only one.
+            // The last flag is set to true so that if the tool window does not exists it will be created.
+            var window = FindToolWindow(typeof(MyToolWindow), 0, true);
+            if ((null == window) || (null == window.Frame))
+            {
+                throw new NotSupportedException(Resources.CanNotCreateWindow);
+            }
+
+            var windowFrame = (IVsWindowFrame)window.Frame;
+            Microsoft.VisualStudio.ErrorHandler.ThrowOnFailure(windowFrame.Show());
+
         }
 
         /// <summary>
