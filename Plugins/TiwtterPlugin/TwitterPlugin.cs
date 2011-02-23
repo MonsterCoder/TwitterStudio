@@ -88,12 +88,12 @@ namespace TwitterPlugin
         {
             var pin = string.Empty;
 
-            var login = new login(tempAccessKey, rtPin => pin = rtPin);
-            login.ShowDialog();
+            var authorizeAccess = new AccessPinWindow(tempAccessKey, rtPin => pin = rtPin);
+            authorizeAccess.ShowDialog();
 
             if (string.IsNullOrEmpty(pin))
             {
-                throw new ApplicationException("Failed in getting Twitter access pin!");
+                throw new ApplicationException("Can not get Twitter access pin!");
             }
 
             return pin;

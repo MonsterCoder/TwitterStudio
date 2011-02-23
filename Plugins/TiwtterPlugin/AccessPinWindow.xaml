@@ -1,0 +1,11 @@
+﻿<Window x:Class="TwitterPlugin.AccessPinWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:Forms="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms" 
+        Title="Twitter access PIN" 
+        Height="327" 
+        Width="596">
+ 
+        <Forms:WebBrowser x:Name="webBrowser1"/>
+
+</Window>
