@@ -32,17 +32,30 @@ namespace TwitterPlugin
         private static string accessSecret = string.Empty;
 
         /// <summary>
+        /// Name of current logged in user
+        /// </summary>
+        private static string currentUser;
+
+        /// <summary>
         /// Send a message
         /// </summary>
-        /// <param name="msg">
+        /// <param name="link">
         /// The content to be sent
         /// </param>
         /// <returns>
         /// bool to indicate if the update succeed
         /// </returns>
-        public bool Update(string msg)
+        public bool Update(string link)
         {
-            if (string.IsNullOrEmpty(accessKey))
+            var vm = new TweetItViewModel()
+                         {
+                             ShowSwith = !string.IsNullOrEmpty(accessKey),
+                             Username = currentUser
+                         };
+
+             new TweetItWindow { DataContext = vm } .ShowDialog();
+
+            if (string.IsNullOrEmpty(accessKey) || vm.UseAnotherAccount)
             {
                 InitializeAccessKey();
             }
@@ -55,7 +68,7 @@ namespace TwitterPlugin
                                  ConsumerSecret = ConsumerSecret
                              };
 
-            return TwitterStatus.Update(tokens, msg).Result == RequestResult.Success;
+            return TwitterStatus.Update(tokens, string.Format("{0}\n{1}", vm.MessageBody, link)).Result == RequestResult.Success;
         }
 
         /// <summary>
@@ -72,6 +85,7 @@ namespace TwitterPlugin
 
             accessKey = oAuthTokenResponse.Token;
             accessSecret = oAuthTokenResponse.TokenSecret;
+            currentUser = oAuthTokenResponse.ScreenName;
         }
 
         /// <summary>

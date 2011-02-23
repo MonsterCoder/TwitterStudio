@@ -69,9 +69,12 @@
   <ItemGroup>
     <Compile Include="TwitterPlugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TwitterPanelViewModel.cs" />
+    <Compile Include="TweetItViewModel.cs" />
     <Compile Include="AccessPinWindow.xaml.cs">
       <DependentUpon>AccessPinWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TweetItWindow.xaml.cs">
+      <DependentUpon>TweetItWindow.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -82,6 +85,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="AccessPinWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TweetItWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

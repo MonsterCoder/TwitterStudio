@@ -5,7 +5,6 @@
         Width="596">
     <Grid>
         <WebBrowser x:Name="webBrowser1"/>
-        <!--<Forms:WebBrowser x:Name="webBrowser1" AllowNavigation="True" BackColor="LightBlue" Height="300" Width="580" />-->
     </Grid>
         
 
