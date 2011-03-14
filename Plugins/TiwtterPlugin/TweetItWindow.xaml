@@ -1,11 +1,17 @@
 ﻿<Window x:Class="TwitterPlugin.TweetItWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Tweet it!" Height="350" Width="637">
+        Title="Message Window" Background="LightBlue" Height="350" Width="637">
+    
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="boolToVisibility"/>
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="Margin" Value="5"/>
+        </Style>
     </Window.Resources>
-    <Grid>
+    <Grid >
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
             <RowDefinition/>
@@ -14,13 +20,41 @@
             <ColumnDefinition Width="396*" />
             <ColumnDefinition Width="219*" />
         </Grid.ColumnDefinitions>
-        <TextBlock x:Name="username" Text="{Binding Username}"/>
-        <CheckBox IsChecked="{Binding UseAnotherAccount}" Grid.Column="1" Content="Use another account" Visibility="{Binding ShowSwith, Converter= {StaticResource boolToVisibility}}"/>
-        <TextBox x:Name="body" Text="{Binding MessageBody}" Grid.Row="1" AutoWordSelection="True" />
-        <StackPanel  Grid.Row="1" Grid.Column="1" >
-            <TextBlock  Text="Please put your message in the left box. Your code will be paste to web and the link will be appended to your message" TextWrapping="Wrap" Margin="5"/>
-            <Button Content="Tweet" Height="30" Width="80" Margin="25" Click="Button_Click" />
-        </StackPanel>
+        <TextBlock 
+            x:Name="username" 
+            Text="{Binding Username}"/>
+        <CheckBox 
+            Foreground="DarkBlue" 
+            IsChecked="{Binding UseAnotherAccount}" 
+            Grid.Column="1" 
+            Content="Use another account" 
+            VerticalAlignment="Center"
+            Margin="3,11,3,5"
+            Visibility="{Binding ShowSwith, Converter= {StaticResource boolToVisibility}}"/>
+        <TextBox 
+            x:Name="body" 
+            Text="{Binding MessageBody}" 
+            Grid.Row="1"
+            AutoWordSelection="True" 
+            Margin="5" MaxLength="115" Opacity="0.8" />       
+        <Canvas  Grid.Row="1" Grid.Column="1" >
+            <Image Source="Twitter_background.png" Width="218" Height="297" Canvas.Top="-22" Opacity="0.6" />
+                   
+            <TextBlock 
+                MaxWidth="220"
+                Text="Please put your message in the left box. Your code will be paste to web and the link will be appended to your message" 
+                TextWrapping="Wrap"  />
+             
+            <Button  
+                Canvas.Top="75"
+                Canvas.Left="50"
+                Height="30" 
+                Width="80" 
+                Margin="25" 
+                Click="Button_Click" Opacity="0.85">
+                   Tweet
+            </Button>
+        </Canvas>
         
     </Grid>
 </Window>

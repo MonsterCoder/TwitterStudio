@@ -22,8 +22,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DeployExtension>False</DeployExtension>
-    <CreateVsixContainer>False</CreateVsixContainer>
+    <DeployExtension>True</DeployExtension>
+    <CreateVsixContainer>True</CreateVsixContainer>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -144,6 +144,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\Package.ico" />
+    <Resource Include="Resources\twitter_background.png" />
   </ItemGroup>
   <PropertyGroup>
     <UseCodebase>true</UseCodebase>

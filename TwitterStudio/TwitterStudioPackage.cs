@@ -19,10 +19,8 @@ using System.ComponentModel.Design;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Company.TwitterStudio.Services;
-using EnvDTE;
 using Microsoft.VisualStudio.ComponentModelHost;
 using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.TextManager.Interop;
 
 namespace Company.TwitterStudio
@@ -68,35 +66,11 @@ namespace Company.TwitterStudio
         private void InitializeImports()
         {
             var vscontainer = GetService(typeof(SComponentModel)) as IComponentModel;
-            
-            vscontainer.DefaultCompositionService.SatisfyImportsOnce(this);
-        }
 
-        /// <summary>
-        /// This function is called when the user clicks the menu item that shows the 
-        /// tool window. See the Initialize method to see how the menu item is associated to 
-        /// this function using the OleMenuCommandService service and the MenuCommand class.
-        /// </summary>
-        /// <param name="sender">
-        /// The sender to use
-        /// </param>
-        /// <param name="e">
-        /// The event argument
-        /// </param>
-        private void ShowToolWindow(object sender, EventArgs e)
-        {
-            // Get the instance number 0 of this tool window. This window is single instance so this instance
-            // is actually the only one.
-            // The last flag is set to true so that if the tool window does not exists it will be created.
-            var window = FindToolWindow(typeof(MyToolWindow), 0, true);
-            if ((null == window) || (null == window.Frame))
+            if (vscontainer != null)
             {
-                throw new NotSupportedException(Resources.CanNotCreateWindow);
+                vscontainer.DefaultCompositionService.SatisfyImportsOnce(this);
             }
-
-            var windowFrame = (IVsWindowFrame)window.Frame;
-            Microsoft.VisualStudio.ErrorHandler.ThrowOnFailure(windowFrame.Show());
-
         }
 
         /// <summary>
@@ -118,11 +92,9 @@ namespace Company.TwitterStudio
                 var menuItem = new MenuCommand(MenuItemCallback, menuCommandID);
                
                 mcs.AddCommand(menuItem);
-
-                var toolwndCommandID = new CommandID(GuidList.guidTwitterStudioCmdSet, (int)PkgCmdIDList.cmdidMyTool);
-                var menuToolWin = new MenuCommand(ShowToolWindow, toolwndCommandID);
-                mcs.AddCommand(menuToolWin);
             }
+
+            InitializeImports();
         }
 
         /// <summary>
@@ -145,33 +117,19 @@ namespace Company.TwitterStudio
 
             var txtMgr = (IVsTextManager)GetService(typeof(SVsTextManager));
             IVsTextView view;
-            IVsTextLines buffer;
             txtMgr.GetActiveView(1, null, out view);
+
             if (view == null)
             {
                 return;
             }
-
-            view.GetBuffer(out buffer);
 
             string selectedText;
             view.GetSelectedText(out selectedText);
             
             var link = pasteService.Upload(selectedText);
 
-            if (twitterService.Update(link))
-            {
-                object point;
-                int l1;
-                int c1;
-                int l2;
-                int c2;
-                view.GetSelection(out l1, out c1, out l2, out c2);
-                buffer.CreateEditPoint(Math.Max(l1, l2), 0, out point);
-
-                ((EditPoint)point).Insert(string.Format("/// twitted:{0}", link));
-            }
-            else
+            if (!twitterService.Update(link))
             {
                 MessageBox.Show(Resources.TwitterStudioPackage_MenuItemCallback_Tweet_failed_);
             }

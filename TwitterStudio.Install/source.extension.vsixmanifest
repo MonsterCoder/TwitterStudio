@@ -1,11 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Vsix xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Version="1.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2010">
-  <Identifier Id="TwitterStudiol.ca97d3ab-d089-4dca-aaf7-01a5ea9ed636">
+  <Identifier Id="TwitterStudio.Install..0539175a-d8f9-41f8-86a3-5ced6f8230ea">
     <Name>TwitterStudio</Name>
-    <Author />
-    <Version>1.0</Version>
-    <Description xml:space="preserve">Empty VSIX Project.</Description>
+    <Author>GeorgeChen</Author>
+    <Version>0.91</Version>
+    <Description xml:space="preserve">Developers can tweet code and comments within IDE byTwitterStudio extension.</Description>
     <Locale>1033</Locale>
+    <MoreInfoUrl>http://github.com/MonsterCoder</MoreInfoUrl>
+    <GettingStartedGuide>https://github.com/MonsterCoder/TwitterStudio</GettingStartedGuide>
+    <Icon>twitter.png</Icon>
     <SupportedProducts>
       <VisualStudio Version="10.0">
         <Edition>Pro</Edition>
@@ -13,16 +16,10 @@
     </SupportedProducts>
     <SupportedFrameworkRuntimeEdition MinVersion="4.0" MaxVersion="4.0" />
   </Identifier>
-  <References>
-    <Reference Id="Microsoft.VisualStudio.Modeling.Extension" MinVersion="10.0">
-      <Name>Microsoft Visual Studio Modeling Extension</Name>
-      <MoreInfoUrl>http://www.jetbrains.com/resharper/</MoreInfoUrl>
-    </Reference>
-  </References>
+  <References />
   <Content>
     <VsPackage>|TwitterStudio;PkgdefProjectOutputGroup|</VsPackage>
     <MefComponent>|PasteBinPlugin|</MefComponent>
     <MefComponent>|TwitterPlugin|</MefComponent>
-    <MefComponent>|TwitterStudio|</MefComponent>
   </Content>
 </Vsix>
