@@ -19,7 +19,7 @@
   <References />
   <Content>
     <VsPackage>|TwitterStudio;PkgdefProjectOutputGroup|</VsPackage>
-    <MefComponent>|PasteBinPlugin|</MefComponent>
     <MefComponent>|TwitterPlugin|</MefComponent>
+    <MefComponent>|PasteBinPlugin|</MefComponent>
   </Content>
 </Vsix>

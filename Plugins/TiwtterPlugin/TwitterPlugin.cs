@@ -34,7 +34,7 @@ namespace TwitterPlugin
         /// <summary>
         /// Name of current logged in user
         /// </summary>
-        private static string currentUser;
+        private static string currentUser = "Not login yet";
 
         /// <summary>
         /// Send a message
@@ -42,10 +42,11 @@ namespace TwitterPlugin
         /// <param name="link">
         /// The content to be sent
         /// </param>
+        /// <param name="logTweet"></param>
         /// <returns>
         /// bool to indicate if the update succeed
         /// </returns>
-        public bool Update(string link)
+        public bool Update(string link, Action<string> logTweet)
         {
             var vm = new TweetItViewModel()
                          {
@@ -67,8 +68,14 @@ namespace TwitterPlugin
                                  ConsumerKey = ConsumerKey,
                                  ConsumerSecret = ConsumerSecret
                              };
+            var body = string.Format("{0}\n{1}", vm.MessageBody, link);
+            var result = TwitterStatus.Update(tokens, body).Result == RequestResult.Success;
+            if (vm.logTweet)
+            {
+                logTweet(body);
+            }
 
-            return TwitterStatus.Update(tokens, string.Format("{0}\n{1}", vm.MessageBody, link)).Result == RequestResult.Success;
+            return result;
         }
 
         /// <summary>

@@ -1,5 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TwitterStudioPackage.cs" company="">
+﻿// <copyright file="TwitterStudioPackage.cs" company="">
 //   
 // </copyright>
 // <summary>
@@ -129,7 +128,7 @@ namespace Company.TwitterStudio
             
             var link = pasteService.Upload(selectedText);
 
-            if (!twitterService.Update(link))
+            if (!twitterService.Update(link, empty=>{ }))
             {
                 MessageBox.Show(Resources.TwitterStudioPackage_MenuItemCallback_Tweet_failed_);
             }
