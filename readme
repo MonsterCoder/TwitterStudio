@@ -1,0 +1,3 @@
+Visual studio 2010 extension that allows you to post your code snippets and commends to Twitter within IDE.
+Select the the code you want to share, then right click on the selection and choose "Tweet it" from context menu.
+You can also use short-cut "ctrol + alt + F6".
