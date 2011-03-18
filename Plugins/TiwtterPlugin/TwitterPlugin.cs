@@ -14,12 +14,12 @@ namespace TwitterPlugin
         /// <summary>
         /// Twitter Api cunsume key
         /// </summary>
-        private const string ConsumerKey = "CuiCpk9LFdVbv9f54WVUsQ";
+        private const string ConsumerKey = "71GklI3cT7bTnLIKon50Rg";
 
         /// <summary>
         ///  Twitter Api cunsume secret
         /// </summary>
-        private const string ConsumerSecret = "hECzA4iDaowztNba9vPd52F1k3Z4efjfAlshPyBaqgc";
+        private const string ConsumerSecret = "sBx3M7wKUhOkSTfWvDlPWi0rcoSZH2gUk3NjvoAy5w";
 
         /// <summary>
         /// Access key to use
