@@ -29,10 +29,12 @@
             Visibility="{Binding ShowSwith, 
             Converter= {StaticResource boolToVisibility}}"
             Margin="5" />
-        <TextBox x:Name="body" 
+        <Border Padding="5" Margin="5" x:Name ="Warningbox" BorderBrush="Red" BorderThickness="0" Grid.Row="1" >
+            <TextBox x:Name="MessageBody" 
                  Text="{Binding MessageBody}" 
                  Grid.Row="1" 
-                 AutoWordSelection="True" />
+                 AutoWordSelection="True" IsReadOnly="False" TextChanged="MessageBody_TextChanged" />
+        </Border>
         <StackPanel  Grid.Row="1" Grid.Column="1" >
             <TextBlock  Text="Please put your message in the left box. Your code will be paste to web and the link will be appended to your message" 
                         TextWrapping="Wrap" 
@@ -45,7 +47,7 @@
                     Height="30" 
                     Width="80" 
                     Margin="25 5 " 
-                    Click="Button_Click"/>
+                    Click="Button_Click" IsDefault="True" />
 
         </StackPanel>
         

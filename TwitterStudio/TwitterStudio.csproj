@@ -96,6 +96,9 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="OptionPage.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Services\ITwitterSerive.cs" />
     <Compile Include="Services\IPasteService.cs" />
     <Compile Include="MyToolWindow.cs" />

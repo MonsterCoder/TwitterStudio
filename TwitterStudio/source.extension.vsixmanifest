@@ -3,7 +3,7 @@
   <Identifier Id="3ec16d46-a7b5-4f14-9d8d-2853e7c6d342">
     <Name>TwitterStudio</Name>
     <Author>Company</Author>
-    <Version>1.0</Version>
+    <Version>0.92</Version>
     <Description xml:space="preserve">Information about my package</Description>
     <Locale>1033</Locale>
     <InstalledByMsi>false</InstalledByMsi>

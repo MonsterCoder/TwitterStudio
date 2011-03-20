@@ -3,7 +3,7 @@
   <Identifier Id="TwitterStudio.Install..0539175a-d8f9-41f8-86a3-5ced6f8230ea">
     <Name>TwitterStudio</Name>
     <Author>GeorgeChen</Author>
-    <Version>0.91</Version>
+    <Version>0.92</Version>
     <Description xml:space="preserve">Developers can tweet code and comments within IDE byTwitterStudio extension.</Description>
     <Locale>1033</Locale>
     <MoreInfoUrl>http://github.com/MonsterCoder</MoreInfoUrl>

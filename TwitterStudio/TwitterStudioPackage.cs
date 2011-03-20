@@ -1,37 +1,19 @@
-﻿// <copyright file="TwitterStudioPackage.cs" company="">
-//   
-// </copyright>
-// <summary>
-//   This is the class that implements the package exposed by this assembly.
-//   The minimum requirement for a class to be considered a valid package for Visual Studio
-//   is to implement the IVsPackage interface and register itself with the shell.
-//   This package uses the helper classes defined inside the Managed Package Framework (MPF)
-//   to do it: it derives from the Package class that provides the implementation of the
-//   IVsPackage interface and uses the registration attributes defined in the framework to
-//   register itself and its components with the shell.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
-using System;
+﻿using System;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Design;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Company.TwitterStudio.Services;
+using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.ComponentModelHost;
 using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.TextManager.Interop;
 
 namespace Company.TwitterStudio
 {
     /// <summary>
     /// This is the class that implements the package exposed by this assembly.
-    /// The minimum requirement for a class to be considered a valid package for Visual Studio
-    /// is to implement the IVsPackage interface and register itself with the shell.
-    /// This package uses the helper classes defined inside the Managed Package Framework (MPF)
-    /// to do it: it derives from the Package class that provides the implementation of the
-    /// IVsPackage interface and uses the registration attributes defined in the framework to
-    /// register itself and its components with the shell.
     /// </summary>
     [PackageRegistration(UseManagedResourcesOnly = true)]
 
@@ -45,19 +27,67 @@ namespace Company.TwitterStudio
     // This attribute registers a tool window exposed by this package.
     [ProvideToolWindow(typeof(MyToolWindow))]
     [Guid(GuidList.guidTwitterStudioPkgString)]
+    [ProvideOptionPage(typeof(OptionPage), "Twitter Studio", "Twitter Studio", 0, 0, true)]
     public sealed class TwitterStudioPackage : Package
     {
         /// <summary>
         /// Twitter command handler
         /// </summary>
-        [Import(typeof(ITwitterSerive))]
-        private ITwitterSerive twitterService;       
+        [Import(typeof(ITwitterService))]
+        private ITwitterService twitterService;       
         
         /// <summary>
         /// Twitter command handler
         /// </summary>
         [Import(typeof(IPasteService))]
         private IPasteService pasteService;
+
+        /// <summary>
+        /// output window
+        /// </summary>
+        private IVsOutputWindowPane _outputWindow;
+
+        /// <summary>
+        /// Backfield for option page property
+        /// </summary>
+        private OptionPage _optionPage;
+
+        /// <summary>
+        /// Gets OutputPane.
+        /// </summary>
+        private IVsOutputWindowPane OutputPane
+        {
+            get
+            {
+                if (_outputWindow == null)
+                {
+                    var outputWindow = GetGlobalService(typeof(SVsOutputWindow)) as IVsOutputWindow;
+                    var debugPaneGuid = VSConstants.GUID_OutWindowDebugPane;
+                    if (outputWindow != null)
+                    {
+                        outputWindow.GetPane(ref debugPaneGuid, out _outputWindow);
+                    }
+                }
+
+                return _outputWindow;
+            }
+        }
+
+        /// <summary>
+        /// Gets the option page
+        /// </summary>
+        private OptionPage OptionsPage
+        {
+            get
+            {
+                if (_optionPage == null)
+                {
+                    _optionPage = (OptionPage)GetDialogPage(typeof(OptionPage));
+                }
+
+                return _optionPage;
+            }
+        }
 
         /// <summary>
         /// Imports MEF components
@@ -73,13 +103,12 @@ namespace Company.TwitterStudio
         }
 
         /// <summary>
-        /// Initialization of the package; this method is called right after the package is sited, so this is the place
-        /// where you can put all the initilaization code that rely on services provided by VisualStudio.
+        /// Initialization of the package; 
         /// </summary>
         protected override void Initialize()
         {
             base.Initialize();
-
+ 
             // Add our command handlers for menu (commands must exist in the .vsct file)
             var mcs = GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
 
@@ -98,8 +127,6 @@ namespace Company.TwitterStudio
 
         /// <summary>
         /// This function is the callback used to execute a command when the a menu item is clicked.
-        /// See the Initialize method to see how the menu item is associated to this function using
-        /// the OleMenuCommandService service and the MenuCommand class.
         /// </summary>
         /// <param name="sender">
         /// The sender to use
@@ -125,12 +152,28 @@ namespace Company.TwitterStudio
 
             string selectedText;
             view.GetSelectedText(out selectedText);
-            
+
+            twitterService.MaximumMsgLength = OptionsPage.MaxLength;
+
+            if (OptionsPage.RememberAccessKey)
+            {
+                twitterService.AccessKey = OptionsPage.AccessKey;
+            }
+ 
+
             var link = pasteService.Upload(selectedText);
 
-            if (!twitterService.Update(link, empty=>{ }))
+            if (!twitterService.Update(link, empty => { }))
             {
                 MessageBox.Show(Resources.TwitterStudioPackage_MenuItemCallback_Tweet_failed_);
+            }
+            else
+            {
+                if (OptionsPage.RememberAccessKey)
+                {
+                    OptionsPage.AccessKey = twitterService.AccessKey;
+                    OptionsPage.SaveSettingsToStorage();
+                }
             }
         }
     }

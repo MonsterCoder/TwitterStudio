@@ -8,8 +8,8 @@ namespace TwitterPlugin
     /// <summary>
     /// Class for handling twitte requests
     /// </summary>
-    [Export(typeof(ITwitterSerive))]
-    public class TwitterPlugin : ITwitterSerive
+    [Export(typeof(ITwitterService))]
+    public class TwitterPlugin : ITwitterService
     {
         /// <summary>
         /// Twitter Api cunsume key
@@ -37,15 +37,32 @@ namespace TwitterPlugin
         private static string currentUser = "Not login yet";
 
         /// <summary>
-        /// Send a message
+        /// Gets or sets the access key
         /// </summary>
-        /// <param name="link">
-        /// The content to be sent
-        /// </param>
-        /// <param name="logTweet"></param>
-        /// <returns>
-        /// bool to indicate if the update succeed
-        /// </returns>
+        public string AccessKey
+        {
+            get
+            {
+                return accessKey;
+            }
+
+            set
+            {
+                accessKey = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the maximum msg length
+        /// </summary>
+        public int MaximumMsgLength { get; set; }
+
+        /// <summary>
+        /// Updates a message
+        /// </summary>
+        /// <param name="link">link to code past</param>
+        /// <param name="logTweet">logging method</param>
+        /// <returns>if the update success</returns>
         public bool Update(string link, Action<string> logTweet)
         {
             var vm = new TweetItViewModel()
@@ -54,7 +71,13 @@ namespace TwitterPlugin
                              Username = currentUser
                          };
 
-             new TweetItWindow { DataContext = vm } .ShowDialog();
+            var tweetItWindow = new TweetItWindow { DataContext = vm };
+            tweetItWindow.MessageBody.MaxLength = MaximumMsgLength;
+
+            if (tweetItWindow .ShowDialog() != true)
+            {
+                return true;
+            }
 
             if (string.IsNullOrEmpty(accessKey) || vm.UseAnotherAccount)
             {
