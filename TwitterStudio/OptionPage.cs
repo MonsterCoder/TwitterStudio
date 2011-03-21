@@ -14,7 +14,7 @@ namespace Company.TwitterStudio
     {
         /// <summary>
         /// </summary>
-        private int _maxLength = 10;
+        private int _maxLength = 120;
 
         /// <summary>
         /// </summary>
@@ -69,7 +69,7 @@ namespace Company.TwitterStudio
         /// <summary>
         /// Gets or sets the access key
         /// </summary>
-        [Category("Twitter"), DisplayName(@"Access Pin"), Description("Twitter app access Pin")]        
+        [Category("Twitter"), DisplayName(@"Access Pin"), Description("Twitter app access Pin"), ReadOnly(true)]        
         public string AccessPin { get; set; }
 
     }

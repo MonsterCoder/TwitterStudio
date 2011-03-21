@@ -71,7 +71,6 @@ namespace TwitterPlugin
                 return true;
             }
 
-
             InitializeAccessKey(vm.UseAnotherAccount);
 
             var tokens = new OAuthTokens
