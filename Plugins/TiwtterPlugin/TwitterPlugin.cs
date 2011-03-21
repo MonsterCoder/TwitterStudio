@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using System.Threading;
 using Company.TwitterStudio.Services;
 using Twitterizer;
 
@@ -50,9 +51,9 @@ namespace TwitterPlugin
         /// Updates a message
         /// </summary>
         /// <param name="link">link to code past</param>
-        /// <param name="logTweet">logging method</param>
+        /// <param name="UpdateCallback">logging method</param>
         /// <returns>if the update success</returns>
-        public bool Update(string link, Action<string> logTweet)
+        public bool Update(string link, Action<string> UpdateCallback)
         {
             var vm = new TweetItViewModel()
                          {
@@ -66,55 +67,58 @@ namespace TwitterPlugin
                                         MessageBody = { MaxLength = MaximumMsgLength }
                                     };
 
+            // Checks if the user has canceled the operation
             if (tweetItWindow.ShowDialog() != true)
             {
                 return true;
             }
 
-            InitializeAccessKey(vm.UseAnotherAccount);
-
-            var tokens = new OAuthTokens
-                             {
-                                 AccessToken = _accessToken,
-                                 AccessTokenSecret = _accessSecret,
-                                 ConsumerKey = ConsumerKey,
-                                 ConsumerSecret = ConsumerSecret
-                             };
-
-            var body = string.Format("{0}\n{1}", vm.MessageBody, link);
-
-            var result = TwitterStatus.Update(tokens, body).Result == RequestResult.Success;
-
-            if (vm.logTweet)
-            {
-                logTweet(body);
-            }
-
-            return result;
+            return Authenticate(vm.UseAnotherAccount, () => Tweet(vm, link, UpdateCallback));
         }
 
         /// <summary>
         /// Initialze the access key and secrete
         /// </summary>
-        private void InitializeAccessKey(bool useAnotherAccount)
+        private bool Authenticate(bool useAnotherAccount, Func<bool> callback)
         {
-            if (!string.IsNullOrEmpty(_accessToken) && !string.IsNullOrEmpty(_accessSecret) && !useAnotherAccount)
-            {
-                return;
-            }
+                if (string.IsNullOrEmpty(_accessToken) || string.IsNullOrEmpty(_accessSecret) || useAnotherAccount)
+                {
+                    var oAuth_token = OAuthUtility.GetRequestToken(ConsumerKey, ConsumerSecret, "oob").Token;
 
-            var oAuth_token = OAuthUtility.GetRequestToken(ConsumerKey, ConsumerSecret, "oob").Token;
+                    // redirect the user to twitter and get the access pin
+                    var pin = string.IsNullOrEmpty(AccessPin) || useAnotherAccount ? GetPin(oAuth_token) : AccessPin;
 
-            // redirect the user to twitter and get the access pin
-            var pin = string.IsNullOrEmpty(AccessPin) || useAnotherAccount ? GetPin(oAuth_token) : AccessPin;
+                    var oAuthTokenResponse = OAuthUtility.GetAccessToken(ConsumerKey, ConsumerSecret, oAuth_token, pin);
 
-            var oAuthTokenResponse = OAuthUtility.GetAccessToken(ConsumerKey, ConsumerSecret, oAuth_token, pin);
+                    AccessPin = pin;
+                    _accessToken = oAuthTokenResponse.Token;
+                    _accessSecret = oAuthTokenResponse.TokenSecret;
+                    currentUser = oAuthTokenResponse.ScreenName;
+                    return callback.Invoke();
+                }
 
-            AccessPin = pin;
-            _accessToken = oAuthTokenResponse.Token;
-            _accessSecret = oAuthTokenResponse.TokenSecret;
-            currentUser = oAuthTokenResponse.ScreenName;
+                return callback.Invoke();
         }
+
+        private bool Tweet(TweetItViewModel vm, string link, Action<string> updateCallback)
+        {
+            var tokens = new OAuthTokens
+            {
+                AccessToken = _accessToken,
+                AccessTokenSecret = _accessSecret,
+                ConsumerKey = ConsumerKey,
+                ConsumerSecret = ConsumerSecret
+            };
+
+            var body = string.Format("{0}\n{1}", vm.MessageBody, link);
+
+            var result = TwitterStatus.Update(tokens, body).Result == RequestResult.Success;
+            var status = result ? "Success: " : "Failed: ";
+            updateCallback(string.Format("{0} \n {1}", status , body));
+
+            return result;
+        }
+
 
         /// <summary>
         /// Form that enable the user to login to twitter and get the pin

@@ -159,22 +159,28 @@ namespace Company.TwitterStudio
             {
                 twitterService.AccessPin = OptionsPage.AccessPin;
             }
- 
 
+            Tweet(selectedText);
+             
+        }
+
+        private void Tweet(string selectedText)
+        {
             var link = pasteService.Upload(selectedText);
 
-            if (!twitterService.Update(link, empty => { }))
+            twitterService.Update(link, UpdateCallBack);
+        }
+
+        private void UpdateCallBack(string msg)
+        {
+            if (OptionsPage.RememberAccessPin)
             {
-                MessageBox.Show(Resources.TwitterStudioPackage_MenuItemCallback_Tweet_failed_);
+                OptionsPage.AccessPin = twitterService.AccessPin;
+                OptionsPage.SaveSettingsToStorage();
             }
-            else
-            {
-                if (OptionsPage.RememberAccessPin)
-                {
-                    OptionsPage.AccessPin = twitterService.AccessPin;
-                    OptionsPage.SaveSettingsToStorage();
-                }
-            }
+
+            OutputPane.Activate();
+            OutputPane.OutputString(string.Format("{0} {1} : {2}\r\n", "Tweet", DateTime.Now.ToLocalTime().ToShortTimeString(), msg));
         }
     }
 }

@@ -21,8 +21,8 @@ namespace Company.TwitterStudio.Services
         /// Updates a message
         /// </summary>
         /// <param name="link">link to code past</param>
-        /// <param name="logTweet">logging method</param>
+        /// <param name="updateCallback">logging method</param>
         /// <returns>if the update success</returns>
-        bool Update(string link, Action<string> logTweet);
+        bool Update(string link, Action<string> updateCallback);
     }
 }
