@@ -22,7 +22,7 @@ namespace Company.TwitterStudio
 
         /// <summary>
         /// </summary>
-        private bool _rememberAccessKey = true;
+        private bool _rememberAccessPin = true;
 
         /// <summary>
         /// Gets or sets MaxLength.
@@ -48,18 +48,29 @@ namespace Company.TwitterStudio
         /// <summary>
         /// Gets or sets a value indicating whether rember AccessKey.
         /// </summary>
-        [Category("Twitter"), DisplayName(@"Remmber Access Key"), Description("Remember Twitter app access key")]
-        public bool RememberAccessKey
+        [Category("Twitter"), DisplayName(@"Remember Access Pin"), Description("Remember Twitter user access Pin")]
+        public bool RememberAccessPin
         {
-            get { return _rememberAccessKey; }
-            set { _rememberAccessKey = value; }
+            get
+            {
+                return _rememberAccessPin;
+            }
+
+            set
+            {
+                _rememberAccessPin = value;
+                if (! _rememberAccessPin)
+                {
+                    AccessPin = string.Empty;
+                }
+            }
         }
 
         /// <summary>
         /// Gets or sets the access key
         /// </summary>
-        [Category("Twitter"), DisplayName(@"Access Key"), Description("Twitter app access key"), ReadOnly(true)]        
-        public string AccessKey { get; set; }
+        [Category("Twitter"), DisplayName(@"Access Pin"), Description("Twitter app access Pin")]        
+        public string AccessPin { get; set; }
 
     }
 }

@@ -155,9 +155,9 @@ namespace Company.TwitterStudio
 
             twitterService.MaximumMsgLength = OptionsPage.MaxLength;
 
-            if (OptionsPage.RememberAccessKey)
+            if (OptionsPage.RememberAccessPin)
             {
-                twitterService.AccessKey = OptionsPage.AccessKey;
+                twitterService.AccessPin = OptionsPage.AccessPin;
             }
  
 
@@ -169,9 +169,9 @@ namespace Company.TwitterStudio
             }
             else
             {
-                if (OptionsPage.RememberAccessKey)
+                if (OptionsPage.RememberAccessPin)
                 {
-                    OptionsPage.AccessKey = twitterService.AccessKey;
+                    OptionsPage.AccessPin = twitterService.AccessPin;
                     OptionsPage.SaveSettingsToStorage();
                 }
             }

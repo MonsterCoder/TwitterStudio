@@ -22,35 +22,24 @@ namespace TwitterPlugin
         private const string ConsumerSecret = "sBx3M7wKUhOkSTfWvDlPWi0rcoSZH2gUk3NjvoAy5w";
 
         /// <summary>
-        /// Access key to use
-        /// </summary>
-        private static string accessKey = string.Empty;
-
-        /// <summary>
         /// Access secret to use;
         /// </summary>
-        private static string accessSecret = string.Empty;
+        private static string _accessSecret = string.Empty;
+
+        /// <summary>
+        /// </summary>
+        private static string _accessToken = string.Empty;
 
         /// <summary>
         /// Name of current logged in user
         /// </summary>
         private static string currentUser = "Not login yet";
 
-        /// <summary>
-        /// Gets or sets the access key
-        /// </summary>
-        public string AccessKey
-        {
-            get
-            {
-                return accessKey;
-            }
 
-            set
-            {
-                accessKey = value;
-            }
-        }
+        /// <summary>
+        /// Gets or sets the access Pin
+        /// </summary>
+        public string AccessPin { get; set; }
 
         /// <summary>
         /// Gets or sets the maximum msg length
@@ -67,32 +56,36 @@ namespace TwitterPlugin
         {
             var vm = new TweetItViewModel()
                          {
-                             ShowSwith = !string.IsNullOrEmpty(accessKey),
+                             ShowSwith = !string.IsNullOrEmpty(AccessPin),
                              Username = currentUser
                          };
 
-            var tweetItWindow = new TweetItWindow { DataContext = vm };
-            tweetItWindow.MessageBody.MaxLength = MaximumMsgLength;
+            var tweetItWindow = new TweetItWindow
+                                    {
+                                        DataContext = vm, 
+                                        MessageBody = { MaxLength = MaximumMsgLength }
+                                    };
 
-            if (tweetItWindow .ShowDialog() != true)
+            if (tweetItWindow.ShowDialog() != true)
             {
                 return true;
             }
 
-            if (string.IsNullOrEmpty(accessKey) || vm.UseAnotherAccount)
-            {
-                InitializeAccessKey();
-            }
+
+            InitializeAccessKey(vm.UseAnotherAccount);
 
             var tokens = new OAuthTokens
                              {
-                                 AccessToken = accessKey,
-                                 AccessTokenSecret = accessSecret,
+                                 AccessToken = _accessToken,
+                                 AccessTokenSecret = _accessSecret,
                                  ConsumerKey = ConsumerKey,
                                  ConsumerSecret = ConsumerSecret
                              };
+
             var body = string.Format("{0}\n{1}", vm.MessageBody, link);
+
             var result = TwitterStatus.Update(tokens, body).Result == RequestResult.Success;
+
             if (vm.logTweet)
             {
                 logTweet(body);
@@ -104,17 +97,23 @@ namespace TwitterPlugin
         /// <summary>
         /// Initialze the access key and secrete
         /// </summary>
-        private static void InitializeAccessKey()
+        private void InitializeAccessKey(bool useAnotherAccount)
         {
+            if (!string.IsNullOrEmpty(_accessToken) && !string.IsNullOrEmpty(_accessSecret) && !useAnotherAccount)
+            {
+                return;
+            }
+
             var oAuth_token = OAuthUtility.GetRequestToken(ConsumerKey, ConsumerSecret, "oob").Token;
 
             // redirect the user to twitter and get the access pin
-            var pin = GetPin(oAuth_token);
+            var pin = string.IsNullOrEmpty(AccessPin) || useAnotherAccount ? GetPin(oAuth_token) : AccessPin;
 
             var oAuthTokenResponse = OAuthUtility.GetAccessToken(ConsumerKey, ConsumerSecret, oAuth_token, pin);
 
-            accessKey = oAuthTokenResponse.Token;
-            accessSecret = oAuthTokenResponse.TokenSecret;
+            AccessPin = pin;
+            _accessToken = oAuthTokenResponse.Token;
+            _accessSecret = oAuthTokenResponse.TokenSecret;
             currentUser = oAuthTokenResponse.ScreenName;
         }
 

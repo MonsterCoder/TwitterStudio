@@ -8,9 +8,9 @@ namespace Company.TwitterStudio.Services
     public interface ITwitterService
     {
         /// <summary>
-        /// Gets or sets the access key
+        /// Gets or sets the access Pin
         /// </summary>
-        string AccessKey { get; set; }
+        string AccessPin { get; set; }
 
         /// <summary>
         /// Gets or sets the maximum msg length
