@@ -164,6 +164,11 @@ namespace Company.TwitterStudio
              
         }
 
+        /// <summary>
+        /// </summary>
+        /// <param name="selectedText">
+        /// The selected text.
+        /// </param>
         private void Tweet(string selectedText)
         {
             var link = pasteService.Upload(selectedText);
@@ -171,6 +176,11 @@ namespace Company.TwitterStudio
             twitterService.Update(link, UpdateCallBack);
         }
 
+        /// <summary>
+        /// </summary>
+        /// <param name="msg">
+        /// The msg.
+        /// </param>
         private void UpdateCallBack(string msg)
         {
             if (OptionsPage.RememberAccessPin)
@@ -180,7 +190,7 @@ namespace Company.TwitterStudio
             }
 
             OutputPane.Activate();
-            OutputPane.OutputString(string.Format("{0} {1} : {2}\r\n", "Tweet", DateTime.Now.ToLocalTime().ToShortTimeString(), msg));
+            OutputPane.OutputString(msg);
         }
     }
 }
