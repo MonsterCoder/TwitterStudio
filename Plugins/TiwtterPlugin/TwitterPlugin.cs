@@ -1,5 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using System.Diagnostics;
+using System.Threading;
 using System.Threading.Tasks;
 using Company.TwitterStudio.Services;
 using Twitterizer;
@@ -86,12 +88,41 @@ namespace TwitterPlugin
                 var oAuth_token = OAuthUtility.GetRequestToken(ConsumerKey, ConsumerSecret, "oob").Token;
 
                 // redirect the user to twitter and get the access pin
-                var pin = string.IsNullOrEmpty(AccessPin) || useAnotherAccount ? GetPin(oAuth_token) : AccessPin;
+                AccessPin = string.IsNullOrEmpty(AccessPin) || useAnotherAccount ? GetPin(oAuth_token) : AccessPin;
 
-                return Task.Factory.StartNew(() => GetAccessToken(oAuth_token, pin, TweetCallback)).Result;
+                return Task.Factory.StartNew(() => RetryableAction(3, 15000, () => GetAccessToken(oAuth_token, AccessPin, TweetCallback))).Result;
             }
 
             return Task.Factory.StartNew(() => TweetCallback.Invoke()).Result;
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="count">
+        /// The count.
+        /// </param>
+        /// <param name="interval">
+        /// The interval.
+        /// </param>
+        /// <param name="getAccessToken">
+        /// The get access token.
+        /// </param>
+        /// <returns>
+        /// </returns>
+        private static bool RetryableAction(int count, int interval, Func<bool> getAccessToken)
+        {
+            for (var i = 0; i < count; i ++)
+            {
+                if (getAccessToken.Invoke())
+                {
+                    return true;
+                }
+
+                Thread.Sleep(interval);
+                Debug.WriteLine(string.Format("Retry {0}", i));
+            }
+
+            return false;
         }
 
         /// <summary>

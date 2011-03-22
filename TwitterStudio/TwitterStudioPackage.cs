@@ -172,7 +172,11 @@ namespace Company.TwitterStudio
         {
             var link = pasteService.Upload(selectedText);
 
-            twitterService.Update(link, UpdateCallBack);
+            if (!twitterService.Update(link, UpdateCallBack))
+            {
+                OutputPane.Activate();
+                OutputPane.OutputString(string.Format("Tweet failed {0} \n", DateTime.Now.ToShortTimeString())); 
+            }
         }
 
         /// <summary>
