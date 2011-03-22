@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel.Composition;
-using System.Threading;
 using System.Threading.Tasks;
 using Company.TwitterStudio.Services;
 using Twitterizer;
@@ -36,7 +35,6 @@ namespace TwitterPlugin
         /// Name of current logged in user
         /// </summary>
         private static string currentUser = "Not login yet";
-
 
         /// <summary>
         /// Gets or sets the access Pin
@@ -81,19 +79,19 @@ namespace TwitterPlugin
         /// <summary>
         ///  Authenticate user and update
         /// </summary>
-        private bool Authenticate(bool useAnotherAccount, Func<bool> updateCallback)
+        private bool Authenticate(bool useAnotherAccount, Func<bool> TweetCallback)
         {
-                if (string.IsNullOrEmpty(_accessToken) || string.IsNullOrEmpty(_accessSecret) || useAnotherAccount)
-                {
-                    var oAuth_token = OAuthUtility.GetRequestToken(ConsumerKey, ConsumerSecret, "oob").Token;
+            if (string.IsNullOrEmpty(_accessToken) || string.IsNullOrEmpty(_accessSecret) || useAnotherAccount)
+            {
+                var oAuth_token = OAuthUtility.GetRequestToken(ConsumerKey, ConsumerSecret, "oob").Token;
 
-                    // redirect the user to twitter and get the access pin
-                    var pin = string.IsNullOrEmpty(AccessPin) || useAnotherAccount ? GetPin(oAuth_token) : AccessPin;
+                // redirect the user to twitter and get the access pin
+                var pin = string.IsNullOrEmpty(AccessPin) || useAnotherAccount ? GetPin(oAuth_token) : AccessPin;
 
-                    return Task.Factory.StartNew(() => GetAccessToken(oAuth_token, pin, updateCallback)).Result;
-                }
+                return Task.Factory.StartNew(() => GetAccessToken(oAuth_token, pin, TweetCallback)).Result;
+            }
 
-                return updateCallback.Invoke();
+            return Task.Factory.StartNew(() => TweetCallback.Invoke()).Result;
         }
 
         /// <summary>

@@ -160,8 +160,7 @@ namespace Company.TwitterStudio
                 twitterService.AccessPin = OptionsPage.AccessPin;
             }
 
-            Tweet(selectedText);
-             
+           Tweet(selectedText);
         }
 
         /// <summary>
